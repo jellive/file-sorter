@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { readDir } from '../../utils';
 
 const select = () => {
     const [dir, setDir] = React.useState('');
@@ -8,8 +9,11 @@ const select = () => {
             'selectedfile'
         ) as HTMLInputElement;
         let path;
-        if (selectedFolderNode) {
+        if (selectedFolderNode.files) {
             path = selectedFolderNode.files[0].path;
+        }
+        if (path) {
+            path = readDir(path);
         }
         alert(path);
     };
