@@ -11,11 +11,13 @@ const select = () => {
         let path;
         if (selectedFolderNode.files) {
             path = selectedFolderNode.files[0].path;
+            setDir(path);
         }
+        let files;
         if (path) {
-            path = readDir(path);
+            files = readDir(dir);
+            files.forEach(file => console.log(file));
         }
-        alert(path);
     };
 
     return (
