@@ -11,7 +11,7 @@ const Application = () => (
         <br />
         {/* <CounterContainer /> */}
         <p>정렬 기준입니다.</p>
-        {/* <Sort /> */}
+        <Sort />
         <p>정렬할 디렉토리를 선택해주세요.</p>
         <Folder />
     </div>
