@@ -1,5 +1,5 @@
 import { hot } from 'react-hot-loader/root';
-import react from 'react';
+import * as React from 'react';
 
 // import CounterContainer from '../containers/CounterContainer';
 import FolderContainer from '../containers/FolderContainer';
