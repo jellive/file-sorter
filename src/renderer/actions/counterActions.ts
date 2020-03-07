@@ -1,13 +1,13 @@
 import { Action, ActionCreator } from 'redux';
 
-export const INCREMENT = 'INCREMENT';
-export const DECREMENT = 'DECREMENT';
+export const INCREMENT = 'counter/INCREMENT';
+export const DECREMENT = 'counter/DECREMENT';
 
 export interface IncrementAction extends Action {
-    type: 'INCREMENT';
+    type: 'counter/INCREMENT';
 }
 export interface DecrementAction extends Action {
-    type: 'DECREMENT';
+    type: 'counter/DECREMENT';
 }
 
 export const increment: ActionCreator<IncrementAction> = () => ({

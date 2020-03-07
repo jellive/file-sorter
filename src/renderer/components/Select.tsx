@@ -1,7 +1,13 @@
 import * as React from 'react';
 import { readDir } from '../../utils';
+import { Folder } from '../types/folder';
 
-const select = () => {
+type FolderProps = {
+    folder: Folder;
+    setFolder: (folder: Folder) => void;
+};
+
+const select = ({ folder, setFolder }: FolderProps) => {
     const [dir, setDir] = React.useState('');
 
     const changeFolder = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,7 +21,9 @@ const select = () => {
         }
         let files;
         if (path) {
+            setFolder(path);
             files = readDir(dir);
+
             files.forEach(file => console.log(file));
         }
     };
@@ -29,6 +37,7 @@ const select = () => {
                 directory=""
                 onChange={changeFolder}
             />
+            <p>현재 폴더 : {folder}</p>
         </>
     );
 };

@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import { CounterState, counterReducer } from './counterReducer';
+import { counterReducer } from './counterReducer';
+import { folderReducer } from './folderReducer';
 
-export interface RootState {
-    counter: CounterState;
-}
-
-export const rootReducer = combineReducers<RootState | undefined>({
-    counter: counterReducer
+export const rootReducer = combineReducers({
+    counter: counterReducer,
+    folder: folderReducer
 });
+
+export type RootState = ReturnType<typeof rootReducer>;
