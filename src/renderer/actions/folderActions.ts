@@ -10,6 +10,4 @@ export const setFolder = (folder: Folder) => {
     };
 };
 
-type SetFolderAction = ReturnType<typeof setFolder>;
-
-export type FolderAction = SetFolderAction;
+export type FolderAction = ReturnType<typeof setFolder>;

@@ -3,7 +3,7 @@ import react from 'react';
 
 // import CounterContainer from '../containers/CounterContainer';
 import FolderContainer from '../containers/FolderContainer';
-import sort from './sort';
+import Sort from './Sort';
 
 const Application = () => (
     <div>
