@@ -10,7 +10,7 @@ type FolderProps = {
 };
 
 const select = ({ folder, setFolder }: FolderProps) => {
-    const [dir, setDir] = React.useState('');
+    const [dir, setDir] = React.useState<string | undefined>(undefined);
     const [mode, setMode] = React.useState(Mode.DEFAULT);
     const [prev, setPrev] = React.useState('');
 
@@ -23,7 +23,7 @@ const select = ({ folder, setFolder }: FolderProps) => {
             'selectedfile'
         ) as HTMLInputElement;
         let path;
-        if (selectedFolderNode.files) {
+        if (selectedFolderNode.files && selectedFolderNode.files[0]) {
             path = selectedFolderNode.files[0].path;
             setDir(path);
         }
@@ -37,7 +37,7 @@ const select = ({ folder, setFolder }: FolderProps) => {
     };
 
     const onPreview = async () => {
-        const result = await execute(dir, mode);
+        const result = await execute(dir!!, mode);
         if (result.result !== Result.success) {
             alert(result.msg);
             return;
@@ -46,7 +46,7 @@ const select = ({ folder, setFolder }: FolderProps) => {
     };
 
     const onExecute = async () => {
-        const result = await execute(dir, mode, true);
+        const result = await execute(dir!!, mode, true);
         if (result.result !== Result.success) {
             alert(result.msg);
             return;
