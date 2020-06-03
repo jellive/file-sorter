@@ -55,6 +55,9 @@ export const execute = async (
                           `${path.join(dir, '..')}/${sizeArr[0].name}`
                       )
                       .then(() => {
+                          return fs.remove(dir);
+                      })
+                      .then(() => {
                           return {
                               result: Result.success,
                               msg: `${sizeArr[0].name} 파일을 ${path.join(dir, '..')}로 옮겼습니다!`

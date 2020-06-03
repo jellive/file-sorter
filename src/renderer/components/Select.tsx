@@ -57,13 +57,13 @@ const select = ({ folder, selectedFolder, setFolder }: FolderProps) => {
             promiseArr.push(execute(`${folder}/${target}`, mode, true));
         });
         Promise.all(promiseArr).then(result => {
-            result.forEach(selectResult => {
+            for (const selectResult of result) {
                 if (selectResult.result !== Result.success) {
                     alert(selectResult.msg);
                     return;
                 }
                 setPrev(selectResult.msg);
-            });
+            }
         });
     };
 
