@@ -3,16 +3,21 @@ import { readDir, execute } from '../../utils';
 import { Folder } from '../types/folder';
 import Sort from './Sort';
 import { Mode, Result } from '../types/mode';
+import FolderList from './FolderList';
+import FolderListContainer from '../containers/FolderListContainer';
 
 type FolderProps = {
     folder: Folder;
+    selectedFolder: Folder[];
     setFolder: (folder: Folder) => void;
 };
 
-const select = ({ folder, setFolder }: FolderProps) => {
+const select = ({ folder, selectedFolder, setFolder }: FolderProps) => {
     const [dir, setDir] = React.useState<string | undefined>(undefined);
     const [mode, setMode] = React.useState(Mode.DEFAULT);
     const [prev, setPrev] = React.useState('');
+
+    const [rootDir, setRootDir] = React.useState<string | undefined>(undefined);
 
     const onModeChanged = (e: React.SyntheticEvent<HTMLSelectElement, Event>) => {
         setMode(parseInt(e.currentTarget.value, 10));
@@ -25,7 +30,7 @@ const select = ({ folder, setFolder }: FolderProps) => {
         let path;
         if (selectedFolderNode.files && selectedFolderNode.files[0]) {
             path = selectedFolderNode.files[0].path;
-            setDir(path);
+            setRootDir(path);
         }
         let files;
         if (path) {
@@ -81,7 +86,20 @@ const select = ({ folder, setFolder }: FolderProps) => {
                 directory=""
                 onChange={changeFolder}
             />
-            <p>현재 폴더 : {folder}</p>
+            <p>현재 폴더 : {rootDir}</p>
+            {JSON.stringify(selectedFolder)}
+            <p>
+                선택한 폴더 :{' '}
+                {selectedFolder.map((fold, index) => (
+                    <React.Fragment key={index}>{fold}</React.Fragment>
+                )) || ''}
+            </p>
+            {rootDir && (
+                <>
+                    <FolderListContainer />
+                    <br />
+                </>
+            )}
             <button type="button" onClick={onPreview}>
                 미리보기
             </button>

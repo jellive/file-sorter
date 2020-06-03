@@ -3,6 +3,7 @@ import * as React from 'react';
 
 // import CounterContainer from '../containers/CounterContainer';
 import FolderContainer from '../containers/FolderContainer';
+// import FolderListContainer from '../containers/FolderListContainer'
 
 const Application = () => (
     <div>
