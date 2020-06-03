@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as fs from 'fs-extra';
 import { readDir } from '../../utils';
 import { Folder } from '../types/Folder';
-import { addFolder, delFolder } from '../actions/folderActions';
+import { Checkbox, Table, TableHead, TableBody, TableCell, TableRow } from '@material-ui/core';
 
 type FolderProps = {
     folder: Folder;
@@ -16,7 +16,7 @@ const FolderList = ({ folder, selectedFolder, addFolder, delFolder }: FolderProp
     const fileList = readDir(folder);
     const dirList = fileList.filter(file => fs.lstatSync(`${folder}/${file}`).isDirectory());
 
-    const dirClicked = (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+    const dirClicked = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         console.log(
             event.currentTarget.value,
             selectedFolder,
@@ -28,16 +28,28 @@ const FolderList = ({ folder, selectedFolder, addFolder, delFolder }: FolderProp
     };
 
     return (
-        <>
-            {dirList.map((file, index) => (
-                <React.Fragment key={file}>
-                    <input type="checkbox" onClick={dirClicked} value={file} />
-                    <p key={file + index}>{file}</p>
-                </React.Fragment>
-            ))}
+        <Table>
+            <TableHead>
+                <TableRow>
+                    <TableCell>체크</TableCell>
+                    <TableCell>디렉토리 이름</TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {dirList.map((file, index) => (
+                    <TableRow key={file}>
+                        <TableCell>
+                            <Checkbox onClick={dirClicked} value={file} />
+                        </TableCell>
+                        <TableCell>
+                            <p key={file + index}>{file}</p>
+                        </TableCell>
+                    </TableRow>
+                ))}
+            </TableBody>
             <button type="button">모두 선택</button>
             <button type="button">모두 해제</button>
-        </>
+        </Table>
     );
 };
 
