@@ -2,7 +2,7 @@ import * as React from 'react';
 import { readDir, execute } from '../../utils';
 import { Folder } from '../types/folder';
 import Sort from './Sort';
-import { Mode, Result } from '../types/mode';
+import { Mode, SelectResult, Result } from '../types/mode';
 import FolderList from './FolderList';
 import FolderListContainer from '../containers/FolderListContainer';
 
@@ -42,7 +42,8 @@ const select = ({ folder, selectedFolder, setFolder }: FolderProps) => {
     };
 
     const onPreview = async () => {
-        const result = await execute(dir!!, mode);
+        // const result = await execute(dir!!, mode, true);
+        const result = await execute(`${folder}/${selectedFolder[0]}`!!, mode);
         if (result.result !== Result.success) {
             alert(result.msg);
             return;
@@ -51,12 +52,19 @@ const select = ({ folder, selectedFolder, setFolder }: FolderProps) => {
     };
 
     const onExecute = async () => {
-        const result = await execute(dir!!, mode, true);
-        if (result.result !== Result.success) {
-            alert(result.msg);
-            return;
-        }
-        setPrev(result.msg);
+        const promiseArr: Promise<SelectResult>[] = [];
+        selectedFolder.forEach(target => {
+            promiseArr.push(execute(`${folder}/${target}`, mode, true));
+        });
+        Promise.all(promiseArr).then(result => {
+            result.forEach(selectResult => {
+                if (selectResult.result !== Result.success) {
+                    alert(selectResult.msg);
+                    return;
+                }
+                setPrev(selectResult.msg);
+            });
+        });
     };
 
     return (
