@@ -5,7 +5,7 @@ import { folderReducer } from './folderReducer';
 
 export const rootReducer = combineReducers({
     counter: counterReducer,
-    folder: folderReducer
+    folder: folderReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

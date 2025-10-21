@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../reducers';
 import { Folder } from '../types/folder';

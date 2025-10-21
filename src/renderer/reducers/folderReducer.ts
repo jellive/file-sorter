@@ -7,30 +7,28 @@ export type FolderState = {
     readonly selectedFolder: Folder[];
 };
 
-const defaultState: FolderState = {
+export const initialState: FolderState = {
     folder: '',
-    selectedFolder: []
+    selectedFolder: [],
 };
 
-export const folderReducer = (state = defaultState, action: FolderAction) => {
+export const folderReducer = (state = initialState, action: FolderAction): FolderState => {
     console.log('action', action);
     switch (action.type) {
         case SET_FOLDER:
             return {
                 ...state,
-                folder: action.folder
+                folder: action.folder,
             };
         case ADD_FOLDER:
             return {
                 ...state,
-                selectedFolder: state.selectedFolder.concat(action.folder)
+                selectedFolder: state.selectedFolder.concat(action.folder),
             };
         case DEL_FOLDER:
-            const index = state.selectedFolder.indexOf(action.folder);
-            console.log('index', index);
             return {
                 ...state,
-                selectedFolder: state.selectedFolder.splice(index, 0)
+                selectedFolder: state.selectedFolder.filter((f) => f !== action.folder),
             };
         default:
             return state;

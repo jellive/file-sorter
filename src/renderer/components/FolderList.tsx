@@ -1,8 +1,8 @@
-import * as React from 'react';
+import { ChangeEvent } from 'react';
 import * as fs from 'fs-extra';
 import { readDir } from '../../utils';
-import { Folder } from '../types/Folder';
-import { Checkbox, Table, TableHead, TableBody, TableCell, TableRow } from '@material-ui/core';
+import { Folder } from '../types/folder';
+import { Checkbox, Table, TableHead, TableBody, TableCell, TableRow } from '@mui/material';
 
 type FolderProps = {
     folder: Folder;
@@ -14,13 +14,13 @@ type FolderProps = {
 
 const FolderList = ({ folder, selectedFolder, addFolder, delFolder }: FolderProps) => {
     const fileList = readDir(folder);
-    const dirList = fileList.filter(file => fs.lstatSync(`${folder}/${file}`).isDirectory());
+    const dirList = fileList.filter((file) => fs.lstatSync(`${folder}/${file}`).isDirectory());
 
-    const dirClicked = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+    const dirClicked = (event: ChangeEvent<HTMLInputElement>) => {
         console.log(
             event.currentTarget.value,
             selectedFolder,
-            selectedFolder.indexOf(event.currentTarget.value)
+            selectedFolder.indexOf(event.currentTarget.value),
         );
         selectedFolder.indexOf(event.currentTarget.value) === -1
             ? addFolder(event.currentTarget.value)
@@ -28,11 +28,11 @@ const FolderList = ({ folder, selectedFolder, addFolder, delFolder }: FolderProp
     };
 
     const allClicked = () => {
-        dirList.forEach(dir => addFolder(dir));
+        dirList.forEach((dir) => addFolder(dir));
     };
 
     const rmvClicked = () => {
-        dirList.forEach(dir => delFolder(dir));
+        dirList.forEach((dir) => delFolder(dir));
     };
 
     return (

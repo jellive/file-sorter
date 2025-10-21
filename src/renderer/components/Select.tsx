@@ -1,9 +1,8 @@
-import * as React from 'react';
+import { useState, SyntheticEvent, Fragment } from 'react';
 import { readDir, execute } from '../../utils';
 import { Folder } from '../types/folder';
-import Sort from './Sort';
+import Sort from './sort';
 import { Mode, SelectResult, Result } from '../types/mode';
-import FolderList from './FolderList';
 import FolderListContainer from '../containers/FolderListContainer';
 
 type FolderProps = {
@@ -12,20 +11,20 @@ type FolderProps = {
     setFolder: (folder: Folder) => void;
 };
 
-const select = ({ folder, selectedFolder, setFolder }: FolderProps) => {
-    const [dir, setDir] = React.useState<string | undefined>(undefined);
-    const [mode, setMode] = React.useState(Mode.DEFAULT);
-    const [prev, setPrev] = React.useState('');
+const Select = ({ folder, selectedFolder, setFolder }: FolderProps) => {
+    const [_dir, _setDir] = useState<string | undefined>(undefined);
+    const [mode, setMode] = useState(Mode.DEFAULT);
+    const [prev, setPrev] = useState('');
 
-    const [rootDir, setRootDir] = React.useState<string | undefined>(undefined);
+    const [rootDir, setRootDir] = useState<string | undefined>(undefined);
 
-    const onModeChanged = (e: React.SyntheticEvent<HTMLSelectElement, Event>) => {
+    const onModeChanged = (e: SyntheticEvent<HTMLSelectElement, Event>) => {
         setMode(parseInt(e.currentTarget.value, 10));
     };
 
     const changeFolder = () => {
         const selectedFolderNode: HTMLInputElement | null = document.getElementById(
-            'selectedfile'
+            'selectedfile',
         ) as HTMLInputElement;
         let path;
         if (selectedFolderNode.files && selectedFolderNode.files[0]) {
@@ -37,13 +36,13 @@ const select = ({ folder, selectedFolder, setFolder }: FolderProps) => {
             setFolder(path);
             files = readDir(path);
 
-            files.forEach(file => console.log(file));
+            files.forEach((file) => console.log(file));
         }
     };
 
     const onPreview = async () => {
         // const result = await execute(dir!!, mode, true);
-        const result = await execute(`${folder}/${selectedFolder[0]}`!!, mode);
+        const result = await execute(`${folder}/${selectedFolder[0]}`, mode);
         if (result.result !== Result.success) {
             alert(result.msg);
             return;
@@ -53,10 +52,10 @@ const select = ({ folder, selectedFolder, setFolder }: FolderProps) => {
 
     const onExecute = async () => {
         const promiseArr: Promise<SelectResult>[] = [];
-        selectedFolder.forEach(target => {
+        selectedFolder.forEach((target) => {
             promiseArr.push(execute(`${folder}/${target}`, mode, true));
         });
-        Promise.all(promiseArr).then(result => {
+        Promise.all(promiseArr).then((result) => {
             for (const selectResult of result) {
                 if (selectResult.result !== Result.success) {
                     alert(selectResult.msg);
@@ -90,17 +89,14 @@ const select = ({ folder, selectedFolder, setFolder }: FolderProps) => {
             <input
                 id="selectedfile"
                 type="file"
-                webkitdirectory=""
-                directory=""
+                {...({ webkitdirectory: '', directory: '' } as any)}
                 onChange={changeFolder}
             />
             <p>현재 폴더 : {rootDir}</p>
             {JSON.stringify(selectedFolder)}
             <p>
                 선택한 폴더 :{' '}
-                {selectedFolder.map((fold, index) => (
-                    <React.Fragment key={index}>{fold}</React.Fragment>
-                )) || ''}
+                {selectedFolder.map((fold, index) => <Fragment key={index}>{fold}</Fragment>) || ''}
             </p>
             {rootDir && (
                 <>
@@ -120,4 +116,4 @@ const select = ({ folder, selectedFolder, setFolder }: FolderProps) => {
     );
 };
 
-export default select;
+export default Select;

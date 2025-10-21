@@ -9,7 +9,7 @@ export const setFolder = (folder: Folder) => {
     console.log('setFolder', folder);
     return <const>{
         folder,
-        type: SET_FOLDER
+        type: SET_FOLDER,
     };
 };
 
@@ -17,14 +17,14 @@ export const addFolder = (folder: Folder) => {
     console.log('addFolder', folder);
     return <const>{
         folder,
-        type: ADD_FOLDER
+        type: ADD_FOLDER,
     };
 };
 
 export const delFolder = (folder: Folder) => {
     return <const>{
         folder,
-        type: DEL_FOLDER
+        type: DEL_FOLDER,
     };
 };
 

@@ -1,7 +1,6 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { AppContainer } from 'react-hot-loader';
 
 import Application from './components/Application';
 import store from './store';
@@ -10,16 +9,12 @@ import store from './store';
 const mainElement = document.createElement('div');
 document.body.appendChild(mainElement);
 
-// Render components
-const render = (Component: () => JSX.Element) => {
-    ReactDOM.render(
-        <AppContainer>
-            <Provider store={store}>
-                <Component />
-            </Provider>
-        </AppContainer>,
-        mainElement
-    );
-};
-
-render(Application);
+// Render components using React 18 createRoot API
+const root = createRoot(mainElement);
+root.render(
+    <StrictMode>
+        <Provider store={store}>
+            <Application />
+        </Provider>
+    </StrictMode>,
+);

@@ -1,9 +1,9 @@
-import * as React from 'react';
+import { useState, ChangeEvent } from 'react';
 
-const sorter = () => {
-    const [char, setChar] = React.useState('');
+const Sort = () => {
+    const [char, setChar] = useState('');
 
-    const changeChar = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const changeChar = (event: ChangeEvent<HTMLInputElement>) => {
         setChar(event.target.value);
     };
     return (
@@ -14,4 +14,4 @@ const sorter = () => {
     );
 };
 
-export default sorter;
+export default Sort;
